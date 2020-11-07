@@ -1,6 +1,9 @@
 const express = require('express');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
+//middleware
+const rutasProtegidas = express.Router();
+
 // This will be our application entry. We'll setup our server here.
 const http = require('http');
 // Set up the express app
@@ -13,12 +16,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // Setup a default catch-all route that sends back a welcome message in JSON format.
 app.get('/', (req, res) => res.status(200).send({
-    message: 'Hola mundo',
+    mensaje: 'Bienvenido a express',
 }));
 
-app.get('*', (req, res) => res.status(200).send({
-    message: 'Welcome to the beginning of nothingness.',
-}));
+//llamar los routers
+require('./app/routers')(app, rutasProtegidas);
 
 const port = parseInt(process.env.PORT, 10) || 3020;
 
