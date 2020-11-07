@@ -1,2 +1,5 @@
-node_modules/
-app/config/
+# dependencias
+/node_modules/
+
+# configuración de la base de datos
+/app/config
