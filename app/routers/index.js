@@ -5,4 +5,7 @@ module.exports = (app, protect) => {
     protect.use(validToken);
     //routes
     require('./usuarios.routes')(app, protect);
+    require('./categorias.routes')(app, protect);
+    require('./platos.routes')(app, protect);
+    require('./pedidos.routes')(app, protect);
 };
