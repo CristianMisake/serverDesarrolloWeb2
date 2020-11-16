@@ -20,7 +20,7 @@ module.exports = {
         if (validar(datos)) res.status(400).send({ mensaje: 'Algunos campos estan vacios' })
         return usuario
             .create (datos)
-            .then(usuario => res.status(200).send(usuario))
+            .then(_ => res.status(200).send({ datos: { create: true } }))
             .catch(error => res.status(400).send(error))
     },
     update(req, res) {
@@ -35,7 +35,7 @@ module.exports = {
         if (data === {}) return res.status(400).send({ mensaje: 'No hay información para actualizar' });
         //actualizar
         return usuario.update(data, { where: where })
-            .then(_ => res.status(200).send({ actualizado: true }))
+            .then(_ => res.status(200).send({ datos: { update: true } }))
             .catch(error => res.status(400).send(error))
     },
     delete(req, res) {
@@ -44,17 +44,12 @@ module.exports = {
         //validar id vacio
         if (validar(where)) return res.status(400).send({ mensaje: 'Algunos campos estan vacios' })
         return usuario.destroy({ where: where })
-            .then(_ => res.status(200).send({ eliminado: true }))
+            .then(_ => res.status(200).send({ datos: { delete: true } }))
             .catch(error => res.status(400).send(error))
     },
     list(_, res) {
-        return usuario.findAll({})
-            .then(usuario => res.status(200).send(usuario))
-            .catch(error => res.status(400).send(error))
-    },
-    find(req, res) {
-        return usuario.findAll({ where: { id: req.decoded.id } })
-            .then(usuario => res.status(200).send(usuario))
+        return usuario.findAll({ attributes: ['id', 'name', 'user'], where: { perfil: 2 } })
+            .then(usuario => res.status(200).send({ datos: usuario }))
             .catch(error => res.status(400).send(error))
     },
     login(req, res) {
@@ -69,5 +64,11 @@ module.exports = {
             .then(usuario => loginIn(usuario, res))
             .catch(error => res.status(400).send(error))
     },
-    verifyLogin(_, res) { res.send({ loggend: true }) },
+    verifyLogin(req, res) {
+        return usuario.findAll({ where: { id: req.decoded.id } })
+            .then(usuario => {
+                res.status(200).send({ datos: { is_admin: (Number(usuario[0].perfil) === 1) } })
+            })
+            .catch(error => res.status(400).send(error))
+    },
 };

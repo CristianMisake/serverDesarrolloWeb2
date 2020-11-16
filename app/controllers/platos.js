@@ -1,5 +1,6 @@
 //models
 const plato = require('../models').platos;
+const categoria = require('../models').categorias;
 //utils
 const { validar } = require('../utils/valid');
 
@@ -15,7 +16,7 @@ module.exports = {
         //validar campos vacios
         if (validar(datos)) return res.status(400).send({ mensaje: 'Algunos campos estan vacios' })
         return plato.create(datos)
-            .then(plato => res.status(200).send(plato))
+            .then(_ => res.status(200).send({ datos: { create: true } }))
             .catch(error => res.status(400).send(error))
     },
     update(req, res) {
@@ -33,12 +34,12 @@ module.exports = {
         if (data === {}) return res.status(400).send({ mensaje: 'No hay información para actualizar' });
         //actualizar
         return plato.update(data, { where: where })
-            .then(_ => res.status(200).send({ actualizado: true }))
+            .then(_ => res.status(200).send({ datos: { update: true } }))
             .catch(error => res.status(400).send(error))
     },
     list(_, res) {
         return plato.findAll({where: { estado: 1 }})
-            .then(plato => res.status(200).send(plato))
+            .then(plato => res.status(200).send({ datos: plato }))
             .catch(error => res.status(400).send(error))
     },
     listByCategoria(req, res) {
@@ -50,16 +51,7 @@ module.exports = {
         //validar id vacio
         if (validar(where)) return res.status(400).send({ mensaje: 'Algunos campos estan vacios' })
         return plato.findAll({ where: where })
-            .then(plato => res.status(200).send(plato))
-            .catch(error => res.status(400).send(error))
-    },
-    find (req, res) {
-        //where
-        const where = { id: req.body.id }
-        //validar id vacio
-        if (validar(where)) return res.status(400).send({ mensaje: 'Algunos campos estan vacios' })
-        return plato.findAll({ where: where })
-            .then(plato => res.status(200).send(plato))
+            .then(plato => res.status(200).send({ datos: plato }))
             .catch(error => res.status(400).send(error))
     },
     delete(req, res) {
@@ -68,7 +60,7 @@ module.exports = {
         //validar id vacio
         if (validar(where)) return res.status(400).send({ mensaje: 'Algunos campos estan vacios' })
         return plato.destroy({ where: where })
-            .then(_ => res.status(200).send({ eliminado: true }))
+            .then(_ => res.status(200).send({ datos: { delete: true } }))
             .catch(error => res.status(400).send(error))
     },
 };

@@ -1,6 +1,7 @@
 const express = require('express');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
+const config = require('./app/config/cors.json')
 //middleware
 const rutasProtegidas = express.Router();
 
@@ -14,8 +15,23 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+app.use((req, res, next) => {
+    const allowedOrigins = [config.cliente];
+    const origin = req.headers.origin;
+    if (allowedOrigins.includes(origin)) {
+      res.setHeader('Access-Control-Allow-Origin', origin);
+    }
+    // authorized headers for preflight requests
+    res.header('Access-Control-Allow-Methods', 'GET, POST');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-API-KEY, X-Requested-With, Content-Type, Accept, Authorization');
+    res.header('Access-Control-Allow-Credentials', true);
+    res.header('Allow', 'GET, POST');
+    next();
+});
+
+
 // Setup a default catch-all route that sends back a welcome message in JSON format.
-app.get('/', (req, res) => res.status(200).send({
+app.get('/', (_, res) => res.status(200).send({
     mensaje: 'Bienvenido a express',
 }));
 

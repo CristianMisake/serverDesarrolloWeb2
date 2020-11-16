@@ -11,7 +11,7 @@ module.exports = {
         if (validar(datos)) return res.status(400).send({ mensaje: 'Algunos campos estan vacios' })
         return categoria
             .create (datos)
-            .then(categoria => res.status(200).send(categoria))
+            .then(_ => res.status(200).send({ datos: { create: true } }))
             .catch(error => res.status(400).send(error))
     },
     update(req, res) {
@@ -26,21 +26,12 @@ module.exports = {
         if (data === {}) return res.status(400).send({ mensaje: 'No hay información para actualizar' });
         //actualizar
         return categoria.update(data, { where: where })
-            .then(_ => res.status(200).send({ actualizado: true }))
+            .then(_ => res.status(200).send({ datos: { update: true } }))
             .catch(error => res.status(400).send(error))
     },
     list(_, res) {
         return categoria.findAll({})
-            .then(categoria => res.status(200).send(categoria))
-            .catch(error => res.status(400).send(error))
-    },
-    find (req, res) {
-        //where
-        const where = { id: req.body.id }
-        //validar id vacio
-        if (validar(where)) return res.status(400).send({ mensaje: 'Algunos campos estan vacios' })
-        return categoria.findAll({ where: where })
-            .then(categoria => res.status(200).send(categoria))
+            .then(categoria => res.status(200).send({ datos: categoria }))
             .catch(error => res.status(400).send(error))
     },
     delete(req, res) {
@@ -49,7 +40,7 @@ module.exports = {
         //validar id vacio
         if (validar(where)) return res.status(400).send({ mensaje: 'Algunos campos estan vacios' })
         return categoria.destroy({ where: where })
-            .then(_ => res.status(200).send({ eliminado: true }))
+            .then(_ => res.status(200).send({ datos: { delete: true } }))
             .catch(error => res.status(400).send(error))
     },
 };
