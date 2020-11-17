@@ -8,15 +8,12 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      valorTotal: {
-        type: Sequelize.INTEGER
-      },
       idUsuario: {
         type: Sequelize.INTEGER
       },
       estado: {
         type: Sequelize.INTEGER,
-        defaultValue: 2
+        defaultValue: 1
       },
       createdAt: {
         allowNull: false,

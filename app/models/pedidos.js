@@ -14,7 +14,6 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   pedidos.init({
-    valorTotal: DataTypes.INTEGER,
     idUsuario: DataTypes.INTEGER,
     estado: DataTypes.INTEGER
   }, {
