@@ -2,7 +2,7 @@
 
 ## Create in mysql:
 
-one database called "fastfood"
+create a database called "fastfood"
 
 ## install and run:
 
