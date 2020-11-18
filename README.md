@@ -1,5 +1,10 @@
 # Server of express (Desarrollo Web 2)
-install and run:
+
+## Create in mysql:
+
+one database called "fastfood"
+
+## install and run:
 
 git clone https://github.com/CristianMisake/serverDesarrolloWeb2
 
