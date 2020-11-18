@@ -14,6 +14,9 @@ module.exports = {
       idPlato: {
         type: Sequelize.INTEGER
       },
+      cantidad: {
+        type: Sequelize.INTEGER
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

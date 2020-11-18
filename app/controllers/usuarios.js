@@ -64,11 +64,5 @@ module.exports = {
             .then(usuario => loginIn(usuario, res))
             .catch(error => res.status(400).send(error))
     },
-    verifyLogin(req, res) {
-        return usuario.findAll({ where: { id: req.decoded.id } })
-            .then(usuario => {
-                res.status(200).send({ datos: { is_admin: (Number(usuario[0].perfil) === 1) } })
-            })
-            .catch(error => res.status(400).send(error))
-    },
+    verifyLogin(req, res) { res.status(200).send({ datos: { is_admin: (Number(req.decoded.perfil) === 1) } }) },
 };

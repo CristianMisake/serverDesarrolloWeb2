@@ -1,4 +1,5 @@
 'use strict';
+const md5 = require('md5');
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('usuarios', {
@@ -32,7 +33,15 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       }
-    });
+    })
+    await queryInterface.bulkInsert('usuarios', [{
+      name: 'Admin',
+      user: 'Admin',
+      password: md5('Admin123.'),
+      perfil: 1,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    }])
   },
   down: async (queryInterface, Sequelize) => {
     await queryInterface.dropTable('usuarios');

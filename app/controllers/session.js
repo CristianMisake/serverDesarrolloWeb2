@@ -16,8 +16,9 @@ const validToken = (req, res, next) => {
 
 const loginIn = (datos, res) => {
     if (datos.length === 0) return res.status(200).send({ mensaje: 'Usuario no existe', empty: true });
-    const token = jwt.sign({ id: datos[0]['id'], perfil: datos[0]['perfil'] }, config.keyToken);
-    return res.status(200).send({ datos: { token:token } });
+    const perfil = datos[0]['perfil'];
+    const token = jwt.sign({ id: datos[0]['id'], perfil: perfil }, config.keyToken);
+    return res.status(200).send({ datos: { token:token, is_admin: (Number(perfil) === 1) } });
 };
 
 module.exports =  {

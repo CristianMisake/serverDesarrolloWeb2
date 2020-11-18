@@ -22,13 +22,9 @@ module.exports = {
             //valor inicial
             let dataPedidosPlato = []
             platos.forEach(plato => {
-                dataPedidosPlato.push({ idPedido: pedido.id, idPlato: plato });
+                dataPedidosPlato.push({ idPedido: pedido.id, idPlato: plato.id, cantidad: plato.cantidad });
             });
             crearPedidoPlato(res, dataPedidosPlato, (resp) => {
-                console.log("------------------------")
-                console.log(resp)
-                console.log(platos)
-                console.log("------------------------")
                 return res.status(200).send({ mensaje: 'Pedido pagado' });
             });
         })
